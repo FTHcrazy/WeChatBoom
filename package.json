@@ -1,0 +1,22 @@
+{
+  "name": "wechat-boom",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Electron Monorepo Project with Main, IM and Setting Windows",
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter @wechat-boom/main dev\" \"pnpm --filter @wechat-boom/im-window dev\" \"pnpm --filter @wechat-boom/setting-window dev\"",
+    "build": "pnpm --filter @wechat-boom/im-window build && pnpm --filter @wechat-boom/setting-window build && pnpm --filter @wechat-boom/main build",
+    "electron:dev": "pnpm --filter @wechat-boom/main electron:dev",
+    "electron:build": "pnpm build && pnpm --filter @wechat-boom/main electron:build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": []
+  }
+}

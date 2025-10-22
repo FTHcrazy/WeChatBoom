@@ -1,0 +1,51 @@
+{
+  "name": "@wechat-boom/main",
+  "version": "1.0.0",
+  "description": "Electron Main Process",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc && cp src/sidebar.html dist/sidebar.html",
+    "electron:dev": "wait-on http://localhost:5173 && electron .",
+    "electron:build": "electron-builder"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "electron": "^28.3.3",
+    "electron-builder": "^24.9.1",
+    "typescript": "^5.3.3",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.wechatboom.app",
+    "productName": "WeChatBoom",
+    "directories": {
+      "output": "../../release"
+    },
+    "files": [
+      "dist/**/*",
+      "../im-window/dist/**/*",
+      "../setting-window/dist/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.social-networking",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Network"
+    }
+  }
+}
