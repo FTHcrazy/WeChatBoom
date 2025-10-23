@@ -4,10 +4,14 @@
   "private": true,
   "description": "Electron Monorepo Project with Main, IM and Setting Windows",
   "scripts": {
-    "dev": "concurrently \"pnpm --filter @wechat-boom/main dev\" \"pnpm --filter @wechat-boom/im-window dev\" \"pnpm --filter @wechat-boom/setting-window dev\"",
-    "build": "pnpm --filter @wechat-boom/im-window build && pnpm --filter @wechat-boom/setting-window build && pnpm --filter @wechat-boom/main build",
-    "electron:dev": "pnpm --filter @wechat-boom/main electron:dev",
-    "electron:build": "pnpm build && pnpm --filter @wechat-boom/main electron:build"
+    "mac:dev": "concurrently \"pnpm --filter @wechat-boom/main mac:dev\" \"pnpm --filter @wechat-boom/im-window mac:dev\" \"pnpm --filter @wechat-boom/setting-window mac:dev\"",
+    "mac:build": "pnpm --filter @wechat-boom/im-window mac:build && pnpm --filter @wechat-boom/setting-window mac:build && pnpm --filter @wechat-boom/main mac:build",
+    "mac:electron:dev": "pnpm --filter @wechat-boom/main mac:electron:dev",
+    "mac:electron:build": "pnpm --filter @wechat-boom/main mac:electron:build",
+    "win:dev": "concurrently \"pnpm --filter @wechat-boom/main win:dev\" \"pnpm --filter @wechat-boom/im-window win:dev\" \"pnpm --filter @wechat-boom/setting-window win:dev\"",
+    "win:build": "pnpm --filter @wechat-boom/im-window win:build && pnpm --filter @wechat-boom/setting-window win:build && pnpm --filter @wechat-boom/main win:build",
+    "win:electron:dev": "pnpm --filter @wechat-boom/main win:electron:dev",
+    "win:electron:build": "pnpm --filter @wechat-boom/main win:electron:build"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

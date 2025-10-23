@@ -1,5 +1,21 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { appRoutes } from './routes';
 import './App.css';
+
+const viewTitles: Record<string, string> = {
+  chat: '聊天',
+  contacts: '通讯录',
+  discover: '发现',
+  moments: '朋友圈',
+  files: '文件',
+  favorites: '收藏',
+};
+
+const getViewFromPath = (pathname: string) => {
+  const trimmed = pathname.startsWith('/') ? pathname.slice(1) : pathname;
+  return trimmed || 'chat';
+};
 
 type WindowType = 'main' | 'im' | 'setting';
 
@@ -35,7 +51,9 @@ function App() {
   const [pongMessage, setPongMessage] = useState('');
   const [messages, setMessages] = useState<string[]>([]);
   const [testMessage, setTestMessage] = useState('Hello from IM window!');
-  const [currentView, setCurrentView] = useState('chat');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentView = getViewFromPath(location.pathname);
 
   useEffect(() => {
     // Check if running in Electron
@@ -44,7 +62,10 @@ function App() {
       
       // 监听侧边栏的视图切换
       const cleanup0 = window.electronAPI.onMessage('switch-view', (message) => {
-        setCurrentView(message.data.view);
+        console.log('视图切换到:', message.data.view);
+        if (message.data?.view) {
+          navigate(`/${message.data.view}`);
+        }
         setMessages(prev => [...prev, `视图切换到: ${message.data.view}`]);
       });
 
@@ -106,7 +127,13 @@ function App() {
     } else {
       console.log('Running in browser');
     }
-  }, []);
+  }, [navigate]);
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      navigate('/chat', { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   const handlePing = async () => {
     if (window.electronAPI) {
@@ -197,12 +224,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>WeChatBoom - {currentView === 'chat' ? '聊天' : 
-             currentView === 'contacts' ? '通讯录' :
-             currentView === 'discover' ? '发现' :
-             currentView === 'moments' ? '朋友圈' :
-             currentView === 'files' ? '文件' :
-             currentView === 'favorites' ? '收藏' : '未知视图'}</h1>
+        <h1>WeChatBoom - {viewTitles[currentView] || '未知视图'}</h1>
         
         <div className="card">
           <h3>窗口管理</h3>
@@ -268,6 +290,14 @@ function App() {
             <button onClick={() => setMessages([])}>清空记录</button>
           </div>
         )}
+
+        <div className="content">
+          <Routes>
+            {appRoutes.map((route) => (
+              <Route key={route.path} path={route.path} element={route.element} />
+            ))}
+          </Routes>
+        </div>
 
         <p className="description">
           使用 React + TypeScript + Vite + Electron

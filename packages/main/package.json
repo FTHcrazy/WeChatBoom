@@ -4,10 +4,14 @@
   "description": "Electron Main Process",
   "main": "dist/main.js",
   "scripts": {
-    "dev": "tsc -w",
-    "build": "tsc && cp src/sidebar.html dist/sidebar.html",
-    "electron:dev": "wait-on http://localhost:5173 && electron .",
-    "electron:build": "electron-builder"
+    "mac:dev": "tsc -w",
+    "mac:build": "tsc && cp src/sidebar.html dist/sidebar.html",
+    "mac:electron:dev": "wait-on http://localhost:5173 && electron .",
+    "mac:electron:build": "electron-builder --mac",
+    "win:dev": "tsc -w",
+    "win:build": "tsc && powershell -Command \"Copy-Item -Path src/sidebar.html -Destination dist/sidebar.html\"",
+    "win:electron:dev": "wait-on http://localhost:5173 && electron .",
+    "win:electron:build": "electron-builder --win"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",

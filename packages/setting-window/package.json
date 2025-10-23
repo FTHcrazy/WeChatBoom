@@ -4,9 +4,12 @@
   "description": "Setting Window Renderer Process",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "mac:dev": "vite",
+    "mac:build": "tsc && vite build",
+    "mac:preview": "vite preview",
+    "win:dev": "vite",
+    "win:build": "tsc && vite build",
+    "win:preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.2.0",
