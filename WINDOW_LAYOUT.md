@@ -41,7 +41,7 @@
 ### IM BrowserView（独立渲染进程）
 - **尺寸**: 940x800px（自动调整）
 - **类型**: BrowserView（嵌入在 Main 窗口右侧）
-- **内容**: React 应用（`packages/im-window`）
+- **内容**: React 应用（`packages/im`）
 - **渲染进程**: 独立的渲染进程
 - **功能**:
   - 聊天界面
@@ -58,7 +58,7 @@
 ### Setting 窗口
 - **尺寸**: 700x600px
 - **类型**: 独立窗口
-- **内容**: React 应用（`packages/setting-window`）
+- **内容**: React 应用（`packages/setting`）
 - **功能**: 应用设置
 
 ## 架构关系

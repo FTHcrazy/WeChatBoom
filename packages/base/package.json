@@ -1,7 +1,7 @@
 {
-  "name": "@wechat-boom/im-window",
+  "name": "@wechat-boom/base",
   "version": "1.0.0",
-  "description": "IM Window Renderer Process",
+  "description": "Base sidebar renderer",
   "type": "module",
   "scripts": {
     "mac:dev": "vite",
@@ -13,8 +13,7 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.45",

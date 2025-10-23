@@ -374,4 +374,4 @@ if (import.meta.env.DEV) {
 
 - 完整文档：[COMMUNICATION.md](packages/main/COMMUNICATION.md)
 - 架构说明：[WindowManager.ts](packages/main/src/WindowManager.ts)
-- 示例代码：`packages/im-window/src/App.tsx`
+- 示例代码：`packages/im/src/App.tsx`

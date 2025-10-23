@@ -1,0 +1,25 @@
+{
+  "name": "@wechat-boom/setting",
+  "version": "1.0.0",
+  "description": "Setting Window Renderer Process",
+  "type": "module",
+  "scripts": {
+    "mac:dev": "vite --port 9528",
+    "mac:build": "tsc && vite build",
+    "mac:preview": "vite preview",
+    "win:dev": "vite --port 9528",
+    "win:build": "tsc && vite build",
+    "win:preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
+  }
+}

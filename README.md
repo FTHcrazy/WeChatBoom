@@ -13,7 +13,7 @@ WeChatBoom/
 │   │   │   └── preload.ts # 预加载脚本
 │   │   ├── package.json
 │   │   └── tsconfig.json
-│   ├── im-window/         # IM 窗口渲染进程
+│   ├── im/         # IM 窗口渲染进程
 │   │   ├── src/
 │   │   │   ├── App.tsx    # React 主组件
 │   │   │   ├── main.tsx   # React 入口
@@ -23,7 +23,7 @@ WeChatBoom/
 │   │   ├── package.json
 │   │   ├── tsconfig.json
 │   │   └── vite.config.ts
-│   └── setting-window/    # 设置窗口渲染进程
+│   └── setting/    # 设置窗口渲染进程
 │       ├── src/
 │       │   ├── App.tsx    # React 主组件
 │       │   ├── main.tsx   # React 入口
@@ -73,10 +73,10 @@ pnpm electron:dev
 
 ```bash
 # 启动 IM 窗口开发服务器（端口 5173）
-pnpm --filter @wechat-boom/im-window dev
+pnpm --filter @wechat-boom/im dev
 
 # 启动设置窗口开发服务器（端口 5174）
-pnpm --filter @wechat-boom/setting-window dev
+pnpm --filter @wechat-boom/setting dev
 
 # 编译主进程（监听模式）
 pnpm --filter @wechat-boom/main dev
@@ -285,8 +285,8 @@ function MyComponent() {
 ## 开发说明
 
 1. **主进程** (`packages/main`): 负责创建窗口、管理应用生命周期、侧边栏 HTML
-2. **IM 窗口** (`packages/im-window`): React 应用，IM 聊天界面（端口 5173）
-3. **设置窗口** (`packages/setting-window`): React 应用，设置界面（端口 5174）
+2. **IM 窗口** (`packages/im`): React 应用，IM 聊天界面（端口 5173）
+3. **设置窗口** (`packages/setting`): React 应用，设置界面（端口 5174）
 4. **Preload 脚本**: 提供安全的 IPC 通信桥梁
 
 ## 许可证

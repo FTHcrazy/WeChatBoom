@@ -49,7 +49,7 @@ this.windowConfigs.set('your-new-window', {
 ```bash
 cd packages
 mkdir your-new-window
-# 复制 im-window 或 setting-window 的结构
+# 复制 im 或 setting 的结构
 ```
 
 4. 更新根目录 `package.json`：
@@ -379,5 +379,5 @@ export {};
 ## 需要帮助？
 
 - 完整文档: [COMMUNICATION.md](packages/main/COMMUNICATION.md)
-- 示例代码: 查看 `packages/im-window/src/App.tsx`
+- 示例代码: 查看 `packages/im/src/App.tsx`
 - 架构说明: 查看 `packages/main/src/WindowManager.ts`

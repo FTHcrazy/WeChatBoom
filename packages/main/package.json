@@ -5,12 +5,12 @@
   "main": "dist/main.js",
   "scripts": {
     "mac:dev": "tsc -w",
-    "mac:build": "tsc && cp src/sidebar.html dist/sidebar.html",
-    "mac:electron:dev": "wait-on http://localhost:5173 && electron .",
+    "mac:build": "tsc",
+    "mac:electron:dev": "wait-on http://localhost:9526 && electron .",
     "mac:electron:build": "electron-builder --mac",
     "win:dev": "tsc -w",
-    "win:build": "tsc && powershell -Command \"Copy-Item -Path src/sidebar.html -Destination dist/sidebar.html\"",
-    "win:electron:dev": "wait-on http://localhost:5173 && electron .",
+    "win:build": "tsc",
+    "win:electron:dev": "wait-on http://localhost:9526 && electron .",
     "win:electron:build": "electron-builder --win"
   },
   "devDependencies": {
@@ -28,8 +28,9 @@
     },
     "files": [
       "dist/**/*",
-      "../im-window/dist/**/*",
-      "../setting-window/dist/**/*"
+      "../im/dist/**/*",
+      "../setting/dist/**/*",
+      "../base/dist/**/*"
     ],
     "mac": {
       "category": "public.app-category.social-networking",

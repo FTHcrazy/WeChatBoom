@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import Chat from '../pages/chat';
+import Contact from '../pages/contact';
 
 export interface AppRoute {
   path: string;
@@ -17,8 +18,8 @@ export const appRoutes: AppRoute[] = [
     element: <Chat />,
   },
   {
-    path: '/contacts',
-    element: <div>通讯录</div>,
+    path: '/contact',
+    element: <Contact />,
   },
   {
     path: '/discover',

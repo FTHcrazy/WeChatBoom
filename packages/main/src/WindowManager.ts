@@ -70,8 +70,8 @@ export class WindowManager {
     this.windowConfigs.set('main', {
       width: 1200, // 260 (侧边栏) + 940 (IM区域)
       height: 800,
-      htmlPath: 'sidebar.html', // 使用本地 HTML（侧边栏）
-      distPath: '', // 不需要
+      devPort: 9526,
+      distPath: '../base/dist/index.html',
       x: 100,
       y: 100,
       resizable: true,
@@ -82,8 +82,8 @@ export class WindowManager {
     this.windowConfigs.set('im', {
       width: 940,
       height: 800,
-      devPort: 5173,
-      distPath: '../im-window/dist/index.html',
+      devPort: 9527,
+      distPath: '../im/dist/index.html',
       resizable: false,
       frame: false
     });
@@ -92,8 +92,8 @@ export class WindowManager {
     this.windowConfigs.set('setting', {
       width: 700,
       height: 600,
-      devPort: 5174,
-      distPath: '../setting-window/dist/index.html',
+      devPort: 9528,
+      distPath: '../setting/dist/index.html',
       resizable: true,
       frame: true
     });
