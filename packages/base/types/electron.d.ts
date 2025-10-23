@@ -1,17 +1,17 @@
-type WindowType = 'main' | 'im' | 'setting';
+export type WindowType = 'main' | 'im' | 'setting';
 
-interface WindowMessage {
+export interface WindowMessage {
   from: WindowType;
   data: any;
 }
 
-interface RequestOptions {
+export interface RequestOptions {
   timeout?: number;
 }
 
-interface ElectronAPI {
-  openWindow?: (type: WindowType) => Promise<{ success: boolean; error?: string }>;
-  closeWindow?: (type: WindowType) => Promise<{ success: boolean; error?: string }>;
+export interface ElectronAPI {
+  openWindow?: (type: WindowType) => Promise<{ success: boolean }>;
+  closeWindow?: (type: WindowType) => Promise<{ success: boolean }>;
   sendTo: (to: WindowType, channel: string, data: any) => void;
   broadcast: (channel: string, data: any) => void;
   request: (to: WindowType, channel: string, data: any, options?: RequestOptions) => Promise<any>;
@@ -22,7 +22,11 @@ interface ElectronAPI {
   openSettingWindow?: () => Promise<void>;
   ping?: () => Promise<string>;
 }
+
+declare global {
   interface Window {
     electronAPI?: ElectronAPI;
   }
+}
 
+export {};

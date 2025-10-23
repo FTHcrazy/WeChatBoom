@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import type { ElectronAPI, WindowMessage, WindowType } from '../types/electron';
 import { appRoutes } from './routes';
 import './App.css';
 
@@ -17,35 +18,6 @@ const getViewFromPath = (pathname: string) => {
   return trimmed || 'chat';
 };
 
-type WindowType = 'main' | 'im' | 'setting';
-
-interface WindowMessage {
-  from: WindowType;
-  data: any;
-}
-
-interface RequestOptions {
-  timeout?: number;
-}
-
-declare global {
-  interface Window {
-    electronAPI?: {
-      openWindow: (type: WindowType) => Promise<{ success: boolean }>;
-      closeWindow: (type: WindowType) => Promise<{ success: boolean }>;
-      sendTo: (to: WindowType, channel: string, data: any) => void;
-      broadcast: (channel: string, data: any) => void;
-      request: (to: WindowType, channel: string, data: any, options?: RequestOptions) => Promise<any>;
-      onRequest: (channel: string, handler: (data: any, from: WindowType) => Promise<any> | any) => () => void;
-      onMessage: (channel: string, callback: (message: WindowMessage) => void) => () => void;
-      on: (channel: string, callback: (...args: any[]) => void) => () => void;
-      openIMWindow: () => Promise<void>;
-      openSettingWindow: () => Promise<void>;
-      ping: () => Promise<string>;
-    };
-  }
-}
-
 function App() {
   const [count, setCount] = useState(0);
   const [pongMessage, setPongMessage] = useState('');
@@ -54,14 +26,15 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const currentView = getViewFromPath(location.pathname);
+  const electronAPI = useMemo(() => window.electronAPI as ElectronAPI | undefined, []);
 
   useEffect(() => {
     // Check if running in Electron
-    if (window.electronAPI) {
+    if (electronAPI) {
       console.log('Running in Electron');
       
       // 监听侧边栏的视图切换
-      const cleanup0 = window.electronAPI.onMessage('switch-view', (message) => {
+      const cleanup0 = electronAPI.onMessage('switch-view', (message: WindowMessage) => {
         console.log('视图切换到:', message.data.view);
         if (message.data?.view) {
           navigate(`/${message.data.view}`);
@@ -70,22 +43,22 @@ function App() {
       });
 
       // 监听来自其他窗口的测试消息
-      const cleanup1 = window.electronAPI.onMessage('test-message', (message) => {
+      const cleanup1 = electronAPI.onMessage('test-message', (message: WindowMessage) => {
         setMessages(prev => [...prev, `来自 ${message.from}: ${message.data.text}`]);
       });
       
       // 监听广播的设置变更
-      const cleanup2 = window.electronAPI.onMessage('setting-changed', (message) => {
+      const cleanup2 = electronAPI.onMessage('setting-changed', (message: WindowMessage) => {
         setMessages(prev => [...prev, `设置更新 (来自 ${message.from}): ${JSON.stringify(message.data)}`]);
       });
       
       // 监听应用状态
-      const cleanup3 = window.electronAPI.on('app-status', (data) => {
+      const cleanup3 = electronAPI.on('app-status', (data) => {
         console.log('应用状态更新:', data);
       });
 
       // 注册请求处理器：处理来自其他窗口的数据请求
-      const cleanup4 = window.electronAPI.onRequest('get-user-info', async (_data, from) => {
+      const cleanup4 = electronAPI.onRequest('get-user-info', async (_data: unknown, from: WindowType) => {
         setMessages(prev => [...prev, `收到来自 ${from} 的请求: get-user-info`]);
         
         // 模拟异步获取数据
@@ -100,7 +73,7 @@ function App() {
       });
 
       // 注册另一个请求处理器
-      const cleanup5 = window.electronAPI.onRequest('calculate', async (data, from) => {
+      const cleanup5 = electronAPI.onRequest('calculate', async (data: { a: number; b: number; operation: string }, from: WindowType) => {
         const { a, b, operation } = data;
         setMessages(prev => [...prev, `收到来自 ${from} 的计算请求: ${a} ${operation} ${b}`]);
         
@@ -127,7 +100,7 @@ function App() {
     } else {
       console.log('Running in browser');
     }
-  }, [navigate]);
+  }, [electronAPI, navigate]);
 
   useEffect(() => {
     if (location.pathname === '/') {
@@ -136,8 +109,8 @@ function App() {
   }, [location.pathname, navigate]);
 
   const handlePing = async () => {
-    if (window.electronAPI) {
-      const result = await window.electronAPI.ping();
+    if (electronAPI?.ping) {
+      const result = await electronAPI.ping();
       setPongMessage(`Electron responded: ${result}`);
     } else {
       setPongMessage('Not running in Electron');
@@ -145,20 +118,20 @@ function App() {
   };
 
   const handleOpenIMWindow = async () => {
-    if (window.electronAPI) {
-      await window.electronAPI.openIMWindow();
+    if (electronAPI?.openIMWindow) {
+      await electronAPI.openIMWindow();
     }
   };
 
   const handleOpenSettingWindow = async () => {
-    if (window.electronAPI) {
-      await window.electronAPI.openSettingWindow();
+    if (electronAPI?.openSettingWindow) {
+      await electronAPI.openSettingWindow();
     }
   };
 
   const handleSendToSetting = () => {
-    if (window.electronAPI) {
-      window.electronAPI.sendTo('setting', 'test-message', {
+    if (electronAPI) {
+      electronAPI.sendTo('setting', 'test-message', {
         text: testMessage,
         timestamp: Date.now()
       });
@@ -167,8 +140,8 @@ function App() {
   };
 
   const handleBroadcast = () => {
-    if (window.electronAPI) {
-      window.electronAPI.broadcast('test-message', {
+    if (electronAPI) {
+      electronAPI.broadcast('test-message', {
         text: testMessage,
         timestamp: Date.now()
       });
@@ -177,10 +150,10 @@ function App() {
   };
 
   const handleRequestUserInfo = async () => {
-    if (window.electronAPI) {
+    if (electronAPI) {
       try {
         setMessages(prev => [...prev, '⏳ 请求 IM 窗口的用户信息...']);
-        const result = await window.electronAPI.request('im', 'get-user-info', {}, { timeout: 5000 });
+        const result = await electronAPI.request('im', 'get-user-info', {}, { timeout: 5000 });
         setMessages(prev => [...prev, `✅ 收到响应: ${JSON.stringify(result)}`]);
       } catch (error: any) {
         setMessages(prev => [...prev, `❌ 请求失败: ${error.message}`]);
@@ -189,10 +162,10 @@ function App() {
   };
 
   const handleRequestCalculation = async () => {
-    if (window.electronAPI) {
+    if (electronAPI) {
       try {
         setMessages(prev => [...prev, '⏳ 请求计算 10 + 20...']);
-        const result = await window.electronAPI.request(
+        const result = await electronAPI.request(
           'im',
           'calculate',
           { a: 10, b: 20, operation: '+' },
@@ -206,10 +179,10 @@ function App() {
   };
 
   const handleRequestTimeout = async () => {
-    if (window.electronAPI) {
+    if (electronAPI) {
       try {
         setMessages(prev => [...prev, '⏳ 测试超时请求（1秒超时）...']);
-        await window.electronAPI.request(
+        await electronAPI.request(
           'setting',
           'slow-operation',
           {},

@@ -1,29 +1,6 @@
 import { useState, useEffect } from 'react';
+import type { ElectronAPI, WindowMessage, WindowType } from '../types/electron';
 import './App.css';
-
-type WindowType = 'main' | 'im' | 'setting';
-
-interface WindowMessage {
-  from: WindowType;
-  data: any;
-}
-
-interface RequestOptions {
-  timeout?: number;
-}
-
-declare global {
-  interface Window {
-    electronAPI?: {
-      sendTo: (to: WindowType, channel: string, data: any) => void;
-      broadcast: (channel: string, data: any) => void;
-      request: (to: WindowType, channel: string, data: any, options?: RequestOptions) => Promise<any>;
-      onRequest: (channel: string, handler: (data: any, from: WindowType) => Promise<any> | any) => () => void;
-      onMessage: (channel: string, callback: (message: WindowMessage) => void) => () => void;
-      on: (channel: string, callback: (...args: any[]) => void) => () => void;
-    };
-  }
-}
 
 function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
@@ -32,14 +9,16 @@ function App() {
   const [messages, setMessages] = useState<string[]>([]);
 
   useEffect(() => {
-    if (window.electronAPI) {
+    const electronAPI = window.electronAPI as ElectronAPI | undefined;
+
+    if (electronAPI) {
       // 监听测试消息
-      const cleanup1 = window.electronAPI.onMessage('test-message', (message) => {
+      const cleanup1 = electronAPI.onMessage('test-message', (message: WindowMessage) => {
         setMessages(prev => [...prev, `收到来自 ${message.from} 的消息: ${message.data.text}`]);
       });
 
       // 注册慢速操作处理器（用于测试超时）
-      const cleanup2 = window.electronAPI.onRequest('slow-operation', async (_data, from) => {
+      const cleanup2 = electronAPI.onRequest('slow-operation', async (_data: unknown, from: WindowType) => {
         setMessages(prev => [...prev, `收到来自 ${from} 的慢速请求...`]);
         
         // 模拟3秒的长时间操作
@@ -49,7 +28,7 @@ function App() {
       });
 
       // 注册设置请求处理器
-      const cleanup3 = window.electronAPI.onRequest('get-settings', async (_data, from) => {
+      const cleanup3 = electronAPI.onRequest('get-settings', async (_data: unknown, from: WindowType) => {
         setMessages(prev => [...prev, `收到来自 ${from} 的设置请求`]);
         
         return {
