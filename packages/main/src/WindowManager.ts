@@ -59,7 +59,7 @@ export class WindowManager {
    * 生成唯一的请求 ID
    */
   private generateRequestId(): string {
-    return `req_${Date.now()}_${++this.requestIdCounter}`;
+    return crypto.randomUUID();
   }
 
   /**
@@ -219,9 +219,9 @@ export class WindowManager {
     view.webContents.loadURL(url);
 
     // 开发环境下打开 DevTools（可选）
-    // if (this.isDev) {
-    //   view.webContents.openDevTools();
-    // }
+    if (this.isDev) {
+      view.webContents.openDevTools();
+    }
 
     // 添加到父窗口
     parentWindow.addBrowserView(view);

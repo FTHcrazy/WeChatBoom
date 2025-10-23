@@ -3,7 +3,7 @@ import type { ElectronAPI, WindowMessage } from '../types/electron';
 
 import './index.css';
 
-type ViewKey = 'chat' | 'contacts' | 'discover' | 'moments' | 'files' | 'favorites';
+type ViewKey = 'chat' | 'contact' | 'discover' | 'moments' | 'files' | 'favorites';
 
 type NavItem = {
   key: ViewKey;
@@ -14,7 +14,7 @@ type NavItem = {
 
 const NAV_ITEMS: NavItem[] = [
   { key: 'chat', icon: '💬', label: '聊天', initialBadge: 5 },
-  { key: 'contacts', icon: '👥', label: '通讯录' },
+  { key: 'contact', icon: '👥', label: '通讯录' },
   { key: 'discover', icon: '🔍', label: '发现' },
   { key: 'moments', icon: '📷', label: '朋友圈', initialBadge: 2 },
   { key: 'files', icon: '📁', label: '文件' },
@@ -24,7 +24,7 @@ const NAV_ITEMS: NavItem[] = [
 const getInitialBadges = () => {
   const badges: Record<ViewKey, number> = {
     chat: 0,
-    contacts: 0,
+    contact: 0,
     discover: 0,
     moments: 0,
     files: 0,
