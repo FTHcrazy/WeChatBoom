@@ -1,4 +1,4 @@
-export type WindowType = 'main' | 'im' | 'setting' | 'xmind';
+export type WindowType = 'main' | 'im' | 'setting';
 
 export interface WindowMessage {
   from: WindowType;
@@ -10,7 +10,7 @@ export interface RequestOptions {
 }
 
 export interface ElectronAPI {
-  openWindow?: (type: WindowType) => Promise<{ success: boolean }>;
+  openWindow?: (type: WindowType) => Promise<{ success: boolean }>; // setting window currently doesn't use openWindow
   closeWindow?: (type: WindowType) => Promise<{ success: boolean }>;
   sendTo: (to: WindowType, channel: string, data: any) => void;
   broadcast: (channel: string, data: any) => void;

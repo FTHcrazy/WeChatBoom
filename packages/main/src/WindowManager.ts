@@ -1,7 +1,7 @@
 import { BrowserWindow, BrowserView } from 'electron';
 import * as path from 'path';
 
-export type WindowType = 'main' | 'im' | 'setting';
+export type WindowType = 'main' | 'im' | 'setting' | 'xmind';
 export type ViewType = 'im'; // BrowserView 类型
 
 export interface WindowConfig {
@@ -94,6 +94,16 @@ export class WindowManager {
       height: 600,
       devPort: 9528,
       distPath: '../setting/dist/index.html',
+      resizable: true,
+      frame: true
+    });
+
+    // Setting 窗口：独立设置窗口
+    this.windowConfigs.set('xmind', {
+      width: 700,
+      height: 600,
+      devPort: 9529,
+      distPath: '../xMind/dist/index.html',
       resizable: true,
       frame: true
     });

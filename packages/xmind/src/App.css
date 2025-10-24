@@ -1,0 +1,203 @@
+.xmind-app {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: 100vh;
+  background: #0f172a;
+  color: #e2e8f0;
+  overflow: hidden;
+}
+
+.xmind-sidebar {
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.95));
+  backdrop-filter: blur(12px);
+  padding: 24px 20px;
+  border-right: 1px solid rgba(148, 163, 184, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.xmind-title {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.xmind-title label {
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.xmind-input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.6);
+  color: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.xmind-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+.xmind-panel {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 12px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.xmind-panel h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #bae6fd;
+}
+
+.xmind-field-label {
+  font-size: 14px;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.xmind-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.6);
+  color: inherit;
+  resize: vertical;
+  outline: none;
+}
+
+.xmind-textarea:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+.xmind-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.xmind-button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.xmind-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.xmind-button:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(56, 189, 248, 0.3);
+}
+
+.xmind-button.danger {
+  background: linear-gradient(135deg, #f87171, #fb7185);
+}
+
+.xmind-hint {
+  font-size: 13px;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.xmind-hint ul {
+  padding-left: 18px;
+  margin: 6px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.xmind-canvas {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at top, rgba(30, 64, 175, 0.25), rgba(15, 23, 42, 0.95));
+}
+
+.xmind-header {
+  padding: 18px 24px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.react-flow__renderer {
+  flex: 1;
+}
+
+.react-flow__node {
+  background: rgba(15, 23, 42, 0.85);
+  color: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.35);
+}
+
+.react-flow__node.selected {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.35);
+}
+
+.react-flow__controls-button {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border-color: rgba(148, 163, 184, 0.2) !important;
+  color: #e2e8f0 !important;
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(56, 189, 248, 0.15);
+}
+
+.react-flow__edge-path {
+  stroke: rgba(56, 189, 248, 0.7);
+  stroke-width: 2;
+}
+
+.react-flow__edge-path.animated {
+  stroke-dasharray: 5;
+}
+
+@media (max-width: 960px) {
+  .xmind-app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .xmind-sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    position: relative;
+    z-index: 2;
+  }
+
+  .xmind-canvas {
+    min-height: 400px;
+  }
+}

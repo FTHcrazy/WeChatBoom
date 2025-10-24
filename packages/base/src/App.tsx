@@ -101,23 +101,12 @@ const SidebarApp = () => {
     await electronAPI.openWindow('setting');
   };
 
-  const handleTest = async () => {
-    if (!electronAPI) {
-      alert('未在 Electron 环境中运行');
+  const handleOpenXMind = async () => {
+    if (!electronAPI?.openWindow) {
       return;
     }
 
-    try {
-      const result = await electronAPI.request(
-        'im',
-        'get-user-info',
-        {},
-        { timeout: 5000 }
-      );
-      alert(`测试成功！\n用户: ${result.username}\nID: ${result.userId}`);
-    } catch (error: any) {
-      alert(`测试失败: ${error.message || error}`);
-    }
+    await electronAPI.openWindow('xmind');
   };
 
   return (
@@ -149,9 +138,9 @@ const SidebarApp = () => {
           <span className="tool-icon">⚙️</span>
           <span>设置</span>
         </button>
-        <button className="tool-btn" onClick={handleTest}>
+        <button className="tool-btn" onClick={handleOpenXMind}>
           <span className="tool-icon">🧪</span>
-          <span>测试</span>
+          <span>xMind</span>
         </button>
       </div>
     </div>
