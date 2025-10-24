@@ -6,12 +6,10 @@ import { Spin } from "antd"
 
 export default function Contact() {
   const contacts = useContactStore((state) => state.contacts)
-  const clearContacts = useContactStore((state) => state.clearContacts)
 
   const { fetchData, loading, loadMore } = useGenerationRange()
 
   useEffect(() => {
-    clearContacts()
     fetchData(true)
   }, [])
 
@@ -19,7 +17,7 @@ export default function Contact() {
 
   return (
     <div className='w-full h-full'>
-      <Spin spinning={loading}/>
+      <Spin spinning={loading} />
       <GridLayout
         totalCount={contacts.length}
         endReached={loadMore}
