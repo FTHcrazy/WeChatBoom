@@ -17,18 +17,19 @@ export const useGenerationRange = () => {
     const [loading, setLoading] = useState(false)
 
 
-
-
-
-
-
     return useMemo(() => {
-        const fetchData = async () => {
+        const fetchData = async (init: boolean = false) => {
 
             setLoading(true)
-            const _start = generationRef.current * limit;
+
+            if (init) {
+                offsetRef.current = 1
+                generationRef.current = 0
+            }
+            const _start = Math.max(1, generationRef.current * limit);
             const _end = _start + limit;
 
+            console.log("_start", _start, "_end", _end)
             const promises = [];
             for (let i = _start; i < _end; i++) {
                 promises.push(PokemonApi.getPokemonList(i));
@@ -54,5 +55,5 @@ export const useGenerationRange = () => {
             loading,
             loadMore
         }
-    }, [loading])
+    }, [loading, addContact])
 }

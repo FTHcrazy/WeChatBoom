@@ -67,7 +67,7 @@ function App() {
       <header className="app-header">
         <h1>WeChatBoom - {viewTitles[currentView] || '未知视图'}</h1>
       </header>
-      <div className="content w-full h-full">
+      <div className="content w-full h-[calc(100vh-100px)]">
         <Routes>
           {appRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.element} />

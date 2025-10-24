@@ -2,12 +2,14 @@
 import { forwardRef } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
 import type { GridItemProps, GridListProps, GridComponents } from 'react-virtuoso'
+import { Skeleton, Space } from "antd"
 import TiltedCard from '../TiltedCard'
 import { useContactStore } from '../../../../store'
 
 interface GridLayoutProps {
+    hasMore?: boolean;
     totalCount?: number;
-    loadMore?: () => void;
+    endReached?: () => void;
 }
 
 
@@ -41,25 +43,27 @@ const gridComponents: GridComponents = {
             {children}
         </div>
     ),
-    Footer: () => {
-        return <div>...</div>
+    Footer: (props) => {
+        console.log('footer', props)
+        return <Space.Compact block>
+            <Skeleton.Image active />
+            <Skeleton.Image active />
+            <Skeleton.Image active />
+        </Space.Compact>
     }
 }
 
 
 export default function GridLayout(props: GridLayoutProps) {
     const contacts = useContactStore((state) => state.contacts)
-
-    console.log(contacts)
+    const { hasMore, totalCount, endReached } = props
     return (
         <VirtuosoGrid
             style={{ height: '100%' }}
-            totalCount={props.totalCount}
+            context={{ hasMore }}
             components={gridComponents}
-            endReached={() =>  {
-                console.log('end reached')
-                props.loadMore?.()
-            }}
+            endReached={endReached}
+            totalCount={totalCount}
             itemContent={(index) => <TiltedCard imageSrc={contacts[index].image}
                 altText={contacts[index].name}
                 captionText={contacts[index].name}
